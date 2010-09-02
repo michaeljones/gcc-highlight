@@ -5,9 +5,10 @@ from pygments.formatters import TerminalFormatter
 from pygments.lexer import RegexLexer, bygroups
 from pygments.token import Generic, Text, Name, Number
 from pygments.style import Style
-
 from pygments import highlight
+
 import sys
+import os
 
 class GccLexer(RegexLexer):
     name = 'gcc'
@@ -50,6 +51,8 @@ colours = {
         Text :              ( 'lightgray', 'lightgray' ),
         }
 
+do_highlight = not os.environ.has_key( "GCC_NO_HIGHLIGHT" )
+
 while True:
 
     line = sys.stdin.readline()
@@ -57,7 +60,11 @@ while True:
     if not line:
         break
 
-    output = highlight( line, GccLexer(), TerminalFormatter( colorscheme=colours ) )
-    sys.stdout.write( output.encode( "latin-1" ) )
+    if do_highlight:
+        output = highlight( line, GccLexer(), TerminalFormatter( colorscheme=colours ) )
+        sys.stdout.write( output.encode( "latin-1" ) )
 
+    else:
+
+        sys.stdout.write( line )
 
