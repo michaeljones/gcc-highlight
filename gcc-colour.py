@@ -62,9 +62,9 @@ while True:
 
     if do_highlight:
         output = highlight( line, GccLexer(), TerminalFormatter( colorscheme=colours ) )
-        sys.stdout.write( output.encode( "latin-1" ) )
+        sys.stderr.write( output.encode( "latin-1" ) )
 
     else:
 
-        sys.stdout.write( line )
+        sys.stderr.write( line )
 
