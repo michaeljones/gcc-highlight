@@ -1,6 +1,5 @@
 # -*- coding: latin-1 -*-
 
-
 from pygments.formatters import TerminalFormatter
 from pygments.lexer import RegexLexer, bygroups
 from pygments.token import Generic, Text, Name, Number
@@ -9,6 +8,7 @@ from pygments import highlight
 
 import sys
 import os
+import subprocess
 
 class GccLexer(RegexLexer):
     name = 'gcc'
@@ -53,9 +53,11 @@ colours = {
 
 do_highlight = not os.environ.has_key( "GCC_NO_HIGHLIGHT" )
 
+pipe = subprocess.Popen( sys.argv[1:], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
 while True:
 
-    line = sys.stdin.readline()
+    line = pipe.stderr.readline()
 
     if not line:
         break
@@ -65,6 +67,9 @@ while True:
         sys.stderr.write( output.encode( "latin-1" ) )
 
     else:
-
         sys.stderr.write( line )
+
+pipe.wait()
+
+sys.exit( pipe.returncode )
 

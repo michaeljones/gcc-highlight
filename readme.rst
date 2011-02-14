@@ -13,7 +13,7 @@ How to
 
 Colour highlighting achieved in a bash shell with::
 
-   g++ <compiler arguments and flags> | python /path/to/gcc-colour.py
+   python /path/to/gcc-colour.py /usr/bin/g++ <compiler arguments and flags>
 
 Requirements
 ------------
